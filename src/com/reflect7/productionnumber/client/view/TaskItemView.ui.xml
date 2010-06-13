@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.field {
+			margin-right: 5px;	
+		}
+	</ui:style>
+	<g:HorizontalPanel>
+		<g:Label ui:field="labelStartTime" styleName="{style.field}"/>
+		<g:Label ui:field="labelEndTime" styleName="{style.field}"/>
+		<g:Label ui:field="labelDescription" styleName="{style.field}"/>
+	</g:HorizontalPanel>
+</ui:UiBinder> 

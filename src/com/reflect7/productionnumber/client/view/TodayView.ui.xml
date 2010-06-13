@@ -1,0 +1,44 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<!-- <g:HTMLPanel>
+		Hello,
+		<g:Button styleName="{style.important}" ui:field="button" />
+	</g:HTMLPanel> -->
+	<!-- <g:LayoutPanel width="00px" height="500px">
+		<g:layer><g:Button>fuck you</g:Button></g:layer>
+	</g:LayoutPanel>-->
+		<g:DockLayoutPanel unit="PX" width="800px" height="600px">
+			
+			<g:center>
+				<g:DockLayoutPanel unit="PX" width="800px">
+					<g:north size="290">
+						<g:VerticalPanel></g:VerticalPanel>
+					</g:north>
+					<g:south size="290">
+						<g:VerticalPanel width="800px">
+							<g:Label>Today's Tasks</g:Label>
+							<g:ScrollPanel ui:field="scroller" height="260px">
+								<g:VerticalPanel ui:field="taskPanel">
+									
+								</g:VerticalPanel>
+							</g:ScrollPanel>
+						</g:VerticalPanel>
+					</g:south>
+				</g:DockLayoutPanel>
+			</g:center>
+			<g:south size="45">
+				<g:HorizontalPanel>
+					<g:Button ui:field="consumeButton">Start Consuming</g:Button>
+					<g:Button ui:field="produceButton">Start Producing</g:Button>
+					<g:TextBox ui:field="descriptionTextBox"></g:TextBox>
+				</g:HorizontalPanel>
+			</g:south>
+		</g:DockLayoutPanel>
+	
+</ui:UiBinder> 

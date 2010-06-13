@@ -30,4 +30,8 @@ public class User implements Serializable {
 		
 		return "";
 	}
+	
+	public static User findUserByEmailAddress(String email){
+		return null;
+	}
 }
