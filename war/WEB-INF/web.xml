@@ -16,6 +16,16 @@
     <url-pattern>/productionnumber/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>taskServlet</servlet-name>
+    <servlet-class>com.reflect7.productionnumber.server.remoteservice.TaskServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>taskServlet</servlet-name>
+    <url-pattern>/productionnumber/task</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ProductionNumber.html</welcome-file>

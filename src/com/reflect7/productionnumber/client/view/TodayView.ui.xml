@@ -5,6 +5,14 @@
 		.important {
 			font-weight: bold;
 		}
+		
+		.main-pnl { background-color: #e6e6e6; }
+		
+		.lbl-in { color: red; margin-left: 8px; margin-right: 3px;}
+		.lbl-out { color: green; margin-right: 3px;}
+		.lbl-num { color: blue; margin-right: 3px;}
+		
+		
 	</ui:style>
 	<!-- <g:HTMLPanel>
 		Hello,
@@ -13,7 +21,7 @@
 	<!-- <g:LayoutPanel width="00px" height="500px">
 		<g:layer><g:Button>fuck you</g:Button></g:layer>
 	</g:LayoutPanel>-->
-		<g:DockLayoutPanel unit="PX" width="800px" height="600px">
+		<g:DockLayoutPanel unit="PX" width="800px" height="600px" styleName="{style.main-pnl}">
 			
 			<g:center>
 				<g:DockLayoutPanel unit="PX" width="800px">
@@ -22,7 +30,12 @@
 					</g:north>
 					<g:south size="290">
 						<g:VerticalPanel width="800px">
-							<g:Label>Today's Tasks</g:Label>
+							<g:HorizontalPanel>
+								<g:Label>Today's Tasks</g:Label>
+								<g:Label ui:field="labelIn" styleName="{style.lbl-in}">In: 0</g:Label>
+								<g:Label ui:field="labelOut" styleName="{style.lbl-out}">Out: 0</g:Label>
+								<g:Label ui:field="labelNumber" styleName="{style.lbl-num}">Number: 0</g:Label>
+							</g:HorizontalPanel>
 							<g:ScrollPanel ui:field="scroller" height="260px">
 								<g:VerticalPanel ui:field="taskPanel">
 									
@@ -34,9 +47,10 @@
 			</g:center>
 			<g:south size="45">
 				<g:HorizontalPanel>
-					<g:Button ui:field="consumeButton">Start Consuming</g:Button>
-					<g:Button ui:field="produceButton">Start Producing</g:Button>
-					<g:TextBox ui:field="descriptionTextBox"></g:TextBox>
+					<g:Button ui:field="buttonEdit">Edit</g:Button>
+					<g:Button ui:field="buttonConsume">Start Consuming</g:Button>
+					<g:Button ui:field="buttonProduce">Start Producing</g:Button>
+					<g:TextBox ui:field="textBoxDescription"></g:TextBox>
 				</g:HorizontalPanel>
 			</g:south>
 		</g:DockLayoutPanel>

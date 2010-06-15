@@ -17,15 +17,22 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import com.reflect7.productionnumber.client.remoteservice.TaskService;
+import com.reflect7.productionnumber.client.remoteservice.TaskServiceAsync;
+import com.reflect7.productionnumber.shared.model.Day;
+import com.reflect7.productionnumber.shared.model.Task;
 
 public class TodayView extends Composite {
 
@@ -35,19 +42,51 @@ public class TodayView extends Composite {
 	
 	}
 
-	@UiField Button consumeButton;
-	@UiField Button produceButton;
-	@UiField TextBox descriptionTextBox;
+	@UiField Button buttonConsume;
+	@UiField Button buttonProduce;
+	@UiField TextBox textBoxDescription;
 	@UiField VerticalPanel taskPanel;
 	@UiField ScrollPanel scroller;
 	
+	@UiField Label labelIn;
+	@UiField Label labelOut;
+	@UiField Label labelNumber;
+	
+	private static TaskServiceAsync taskService = GWT.create(TaskService.class);
+	
 	private TaskItemView _currentTask = null;
 
+	private Day _today = null;
+	
 	public TodayView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		//button.setText(firstName);
 		
-		Window.addResizeHandler(new ResizeHandler(){
+		taskService.getToday("", new AsyncCallback<Day>(){
+			public void onFailure(Throwable caught) {
+				Window.alert("fail");
+			}
+
+			public void onSuccess(Day result) {
+				_today = result;
+				
+				for (Task t : _today.getTasks()){
+					TaskItemView tiv = new TaskItemView(t);
+					taskPanel.add(tiv);
+				}
+				
+				short in = _today.getSumConsumptionMins();
+				short out =  _today.getSumProductionMins();
+				double num = 0.0;
+				if (in != 0)
+					num = (double)out / (double)in;
+				
+				labelIn.setText("In: " + in);
+				labelOut.setText("Out: " + out);
+				labelNumber.setText("Number:" + num);
+			}
+		});
+		
+		/*Window.addResizeHandler(new ResizeHandler(){
 			public void onResize(ResizeEvent event) {
 				Element e = scroller.getElement();
 				int h = e.getAbsoluteBottom() - e.getAbsoluteTop();
@@ -62,47 +101,70 @@ public class TodayView extends Composite {
 			public void execute() {
 				//self.onResize();
 			}
-		});
+		});*/
 	}
 
-	@UiHandler("consumeButton")
+	@UiHandler("buttonConsume")
 	void onConsumeClick(ClickEvent e) {
-		if (consumeButton.getText().equals("Start Consuming")){
-			consumeButton.setText("Stop Consuming");
-			produceButton.setEnabled(false);
+		if (buttonConsume.getText().equals("Start Consuming")){
+			buttonConsume.setText("Stop Consuming");
+			buttonProduce.setEnabled(false);
 			
-			Date o = new Date();
-			DateTimeFormat dtf = DateTimeFormat.getShortDateTimeFormat();
+			Task t = createTask(Task.TaskType.Consume, textBoxDescription.getText(), new Date());
+			_currentTask = new TaskItemView(t);
 			
-			_currentTask = new TaskItemView(dtf.format(o),  descriptionTextBox.getText(), false);
+			textBoxDescription.setText("");
 			
 			taskPanel.add(_currentTask);
+			_today.getTasks().add(t);
 		} else {
-			Date o = new Date();
-			DateTimeFormat dtf = DateTimeFormat.getShortDateTimeFormat();
+			_currentTask.getTask().setStopTime(new Date());
+			_currentTask.setEndTime(_currentTask.getTask().getStopTimeString());
 			
-			_currentTask.setEndTime(dtf.format(o));
+			taskService.saveDay(_today, new AsyncCallback<String>(){
+				public void onFailure(Throwable caught) {
+					Window.alert("fail");
+				}
+
+				public void onSuccess(String result) {
+					
+				}
+			});
 			
-			consumeButton.setText("Start Consuming");
-			produceButton.setEnabled(true);
+			buttonConsume.setText("Start Consuming");
+			buttonProduce.setEnabled(true);
 		}
 	}
 	
-	@UiHandler("produceButton")
+	@UiHandler("buttonProduce")
 	void onProduceClick(ClickEvent e) {
-		if (produceButton.getText().equals("Start Producing")){
-			produceButton.setText("Stop Producing");
-			consumeButton.setEnabled(false);
+		if (buttonProduce.getText().equals("Start Producing")){
+			buttonProduce.setText("Stop Producing");
+			buttonConsume.setEnabled(false);
 			
-			Date o = new Date();
-			DateTimeFormat dtf = DateTimeFormat.getShortDateTimeFormat();
+			Task t = createTask(Task.TaskType.Produce, textBoxDescription.getText(), new Date());
+			_currentTask = new TaskItemView(t);
 			
-			_currentTask = new TaskItemView(dtf.format(o),  descriptionTextBox.getText(), true);
+			textBoxDescription.setText("");
 			
 			taskPanel.add(_currentTask);
+			_today.getTasks().add(t);
 		} else {
-			produceButton.setText("Start Producing");
-			consumeButton.setEnabled(true);
+			_currentTask.getTask().setStopTime(new Date());
+			_currentTask.setEndTime(_currentTask.getTask().getStopTimeString());
+			
+			taskService.saveDay(_today, new AsyncCallback<String>(){
+				public void onFailure(Throwable caught) {
+					Window.alert("fail");
+				}
+
+				public void onSuccess(String result) {
+					
+				}
+			});
+			
+			buttonProduce.setText("Start Producing");
+			buttonConsume.setEnabled(true);
 		}
 	}
 	
@@ -110,7 +172,13 @@ public class TodayView extends Composite {
 	/*public void onResize(){
 		
 	}*/
-
 	
+	public Task createTask(Task.TaskType tt, String description, Date startTime){
+		Task t = new Task();
+		t.setTaskType(tt); t.setDescription(description); t.setStartTime(startTime);
+		
+		return t;
+	}
+
 	
 }
