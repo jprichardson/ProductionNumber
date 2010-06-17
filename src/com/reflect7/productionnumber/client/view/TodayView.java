@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.reflect7.productionnumber.client.remoteservice.TaskService;
 import com.reflect7.productionnumber.client.remoteservice.TaskServiceAsync;
+import com.reflect7.productionnumber.shared.lib.util.MathUtil;
 import com.reflect7.productionnumber.shared.model.Day;
 import com.reflect7.productionnumber.shared.model.Task;
 
@@ -63,7 +64,7 @@ public class TodayView extends Composite {
 		
 		taskService.getToday("", new AsyncCallback<Day>(){
 			public void onFailure(Throwable caught) {
-				Window.alert("fail");
+				Window.alert("fail load today");
 			}
 
 			public void onSuccess(Day result) {
@@ -74,15 +75,28 @@ public class TodayView extends Composite {
 					taskPanel.add(tiv);
 				}
 				
-				short in = _today.getSumConsumptionMins();
-				short out =  _today.getSumProductionMins();
-				double num = 0.0;
+				float in = _today.getSumConsumptionMins();
+				float out =  _today.getSumProductionMins();
+				float num = 0.0f;
 				if (in != 0)
-					num = (double)out / (double)in;
+					num = out / in;
+				in = MathUtil.round(in, 2);
+				out = MathUtil.round(out, 2);
+				num = MathUtil.round(num, 2);
 				
 				labelIn.setText("In: " + in);
 				labelOut.setText("Out: " + out);
 				labelNumber.setText("Number:" + num);
+				
+				taskService.getDays("", new AsyncCallback<Iterable<Day>>(){
+					public void onFailure(Throwable caught) {
+						Window.alert("fail load days");
+					}
+
+					public void onSuccess(Iterable<Day> result) {
+						
+					}
+				});
 			}
 		});
 		
@@ -123,7 +137,7 @@ public class TodayView extends Composite {
 			
 			taskService.saveDay(_today, new AsyncCallback<String>(){
 				public void onFailure(Throwable caught) {
-					Window.alert("fail");
+					Window.alert("fail consume");
 				}
 
 				public void onSuccess(String result) {
@@ -155,7 +169,7 @@ public class TodayView extends Composite {
 			
 			taskService.saveDay(_today, new AsyncCallback<String>(){
 				public void onFailure(Throwable caught) {
-					Window.alert("fail");
+					Window.alert("fail produce");
 				}
 
 				public void onSuccess(String result) {

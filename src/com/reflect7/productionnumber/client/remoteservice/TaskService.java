@@ -9,4 +9,5 @@ import com.reflect7.productionnumber.shared.model.Day;
 public interface TaskService extends RemoteService{
 	Day getToday(String user) throws IllegalArgumentException;
 	String saveDay(Day day) throws IllegalArgumentException;
+	Iterable<Day> getDays(String email) throws IllegalArgumentException;
 }

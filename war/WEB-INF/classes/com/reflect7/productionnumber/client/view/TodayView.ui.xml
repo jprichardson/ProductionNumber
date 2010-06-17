@@ -50,7 +50,7 @@
 					<g:Button ui:field="buttonEdit">Edit</g:Button>
 					<g:Button ui:field="buttonConsume">Start Consuming</g:Button>
 					<g:Button ui:field="buttonProduce">Start Producing</g:Button>
-					<g:TextBox ui:field="textBoxDescription"></g:TextBox>
+					<g:TextBox ui:field="textBoxDescription" width="500px"></g:TextBox>
 				</g:HorizontalPanel>
 			</g:south>
 		</g:DockLayoutPanel>

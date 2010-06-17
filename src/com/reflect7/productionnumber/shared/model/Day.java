@@ -19,47 +19,48 @@ public class Day implements Serializable {
 	public Day(){};
 	
 	public Day(short year, byte month, byte day){
-		this.year = (byte)(year-2000); this.month = month; this.day = day;
-		updateDate();
+		//this.year = (byte)(year-2000); this.month = month; this.day = day;
+		byte y = (byte)(year - 2000);
+		updateDate(y, month, day);
 	}
 	
 	@Id Long id;
 	public Long getId(){ return this.id; }
 	
-	byte day; //1-31
+	/*byte day; //1-31
 	public byte getDay() { return day; }
 	public void setDay(byte day){ 
 		this.day = day; 
 		updateDate();
-	}
+	}*/
 	
-	byte month; //1-12
+	/*byte month; //1-12
 	public byte getMonth() { return month; }
 	public void setMonth(byte month) { 
 		this.month = month;
 		updateDate();
-	}
+	}*/
 	
-	byte year;
+	/*byte year;
 	public short getYear() { return (short) (2000+year); }
 	public void setYear(short year) { 
 		this.year = (byte)(year-2000);
 		updateDate();
-	}
+	}*/
 	
 	String date = ""; //YEAR-MONTH-DAY
 	public String getDateString() { return date; }
 	
-	public short getSumConsumptionMins(){
-		short sum = 0;
+	public float getSumConsumptionMins(){
+		float sum = 0;
 		for (Task t : tasks)
 			if (t.getTaskType() == Task.TaskType.Consume)
 			sum += t.getTotalMins();
 		return sum;
 	}
 	
-	public short getSumProductionMins(){
-		short sum = 0;
+	public float getSumProductionMins(){
+		float sum = 0;
 		for (Task t : tasks)
 			if (t.getTaskType() == Task.TaskType.Produce)
 				sum += t.getTotalMins();
@@ -78,14 +79,21 @@ public class Day implements Serializable {
 	public List<Task> getTasks() { return tasks; }
 
 
-	private void updateDate(){
+	private void updateDate(byte year, byte month, byte day){
 		StringBuilder sb = new StringBuilder();
 		sb.append("20");
 		sb.append(year);
+		
 		sb.append('-');
+		if (month < 10)
+			sb.append('0');
 		sb.append(month);
+		
 		sb.append('-');
+		if (day < 10)
+			sb.append('0');
 		sb.append(day);
+		
 		date = sb.toString();
 	}
 }

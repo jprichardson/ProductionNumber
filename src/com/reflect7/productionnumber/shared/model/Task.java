@@ -31,14 +31,14 @@ public class Task implements Serializable {
 	public String getStopTimeString() { return DateTimeFormat.getShortTimeFormat().format(stopTime); }
 	public void setStopTime(Date stopTime) { this.stopTime = stopTime; }
 	
-	public short getTotalMins(){
+	public float getTotalMins(){
 		if (stopTime == null)
 			return 0;
 		
 		long diff = stopTime.getTime() - startTime.getTime();
-		diff /= (1000*60);
+		float d = diff / (1000.0f * 60.0f);
 		
-		return (short)diff;
+		return d;
 	}
 	
 	TaskType taskType;

@@ -17,8 +17,15 @@ public class User implements Serializable {
 	public User() {};
 	
 	@Id Long id;
+	public Long getId() { return this.id; }
+	
 	String email;
-	String firstName;
+	public String getEmail() { return this.email; }
+	public void setEmail(String email) { this.email = email; }
+	
+	/*String firstName;
+	public String 
+	
 	String lastName;
 	
 	public String getWholeName(NameStyle ns) {
@@ -29,9 +36,5 @@ public class User implements Serializable {
 			return lastName + ", " + firstName;
 		
 		return "";
-	}
-	
-	public static User findUserByEmailAddress(String email){
-		return null;
-	}
+	}*/
 }
