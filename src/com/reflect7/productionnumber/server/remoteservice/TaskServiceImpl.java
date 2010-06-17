@@ -19,6 +19,7 @@ import com.reflect7.productionnumber.shared.model.Day;
 import com.reflect7.productionnumber.shared.model.Task;
 import com.reflect7.productionnumber.shared.model.User;
 
+@SuppressWarnings("serial")
 public class TaskServiceImpl extends RemoteServiceServlet implements TaskService {
 
 	public Iterable<Day> getDays(String email) throws IllegalArgumentException {
@@ -27,7 +28,6 @@ public class TaskServiceImpl extends RemoteServiceServlet implements TaskService
 		
 		List<Day> days = new ArrayList<Day>();
 		for (Day t : results){
-			ofy.put(t);
 			days.add(t);
 		}
 		

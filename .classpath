@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Objectify-2.2.1"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (6)"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/GWTP-0.2"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
