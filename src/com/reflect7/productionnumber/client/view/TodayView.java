@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -34,6 +35,7 @@ import com.reflect7.productionnumber.client.remoteservice.TaskServiceAsync;
 import com.reflect7.productionnumber.shared.lib.util.MathUtil;
 import com.reflect7.productionnumber.shared.model.Day;
 import com.reflect7.productionnumber.shared.model.Task;
+import com.reflect7.productionnumber.shared.model.Task.TaskType;
 
 public class TodayView extends Composite {
 
@@ -48,6 +50,14 @@ public class TodayView extends Composite {
 	@UiField TextBox textBoxDescription;
 	@UiField VerticalPanel taskPanel;
 	@UiField ScrollPanel scroller;
+	
+	@UiField Button buttonAddTask;
+	@UiField TextBox textBoxAddDescription;
+	@UiField TextBox textBoxStartTime;
+	@UiField TextBox textBoxEndTime;
+	@UiField RadioButton radioConsume;
+	@UiField RadioButton radioProduce;
+	
 	
 	@UiField Label labelIn;
 	@UiField Label labelOut;
@@ -187,6 +197,63 @@ public class TodayView extends Composite {
 		
 	}*/
 	
+	@UiHandler("buttonAddTask")
+	void onAddTaskClick(ClickEvent ce){
+		//Date start = new Date();
+		//Date end = new Date();
+		
+		//clearsHoursMinSecs()
+		try {
+		
+			String todayString = _today.getDateString();
+			String startString = todayString + " " + textBoxStartTime.getText();
+			String endString = todayString + " " + textBoxEndTime.getText();
+			
+			DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy-MM-dd h:mm a");
+			
+			Date start = dtf.parse(startString);
+			Date end = dtf.parse(endString);
+			
+			if (end.getTime() - start.getTime() < 0){
+				end.setDate(end.getDate() + 1);
+			}
+			
+			Task t = new Task();
+			if (radioConsume.isChecked())
+				t.setTaskType(TaskType.Consume);
+			
+			if (radioProduce.isChecked())
+				t.setTaskType(TaskType.Produce);
+			
+			t.setStartTime(start);
+			t.setStopTime(end);
+			
+			t.setDescription(textBoxAddDescription.getText());
+			
+			TaskItemView tiv = new TaskItemView(t);
+			
+			taskPanel.add(tiv);
+			
+			_today.getTasks().add(t);
+			
+			taskService.saveDay(_today, new AsyncCallback<String>(){
+				public void onFailure(Throwable caught) {
+					Window.alert("fail add task");
+				}
+
+				public void onSuccess(String result) {
+					textBoxStartTime.setText("");
+					textBoxEndTime.setText("");
+					textBoxAddDescription.setText("");
+				}
+			});
+				
+		}
+		catch (Exception ex){
+			Window.alert(ex.getMessage());
+		}
+	}
+	
 	public Task createTask(Task.TaskType tt, String description, Date startTime){
 		Task t = new Task();
 		t.setTaskType(tt); t.setDescription(description); t.setStartTime(startTime);
@@ -194,5 +261,12 @@ public class TodayView extends Composite {
 		return t;
 	}
 
+	
+	@SuppressWarnings("deprecation")
+	private void clearHoursMinsSecs(Date d){
+		d.setHours(0);
+		d.setMinutes(0);
+		d.setSeconds(0);
+	}
 	
 }

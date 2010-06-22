@@ -46,12 +46,23 @@
 				</g:DockLayoutPanel>
 			</g:center>
 			<g:south size="45">
-				<g:HorizontalPanel>
-					<g:Button ui:field="buttonEdit">Edit</g:Button>
-					<g:Button ui:field="buttonConsume">Start Consuming</g:Button>
-					<g:Button ui:field="buttonProduce">Start Producing</g:Button>
-					<g:TextBox ui:field="textBoxDescription" width="500px"></g:TextBox>
-				</g:HorizontalPanel>
+				<g:VerticalPanel>
+					<g:HorizontalPanel>
+						<g:Button ui:field="buttonAddTask">Add Task</g:Button>
+						<g:RadioButton ui:field="radioConsume" name="groupTaskType" checked="true">Consume</g:RadioButton>
+						<g:RadioButton ui:field="radioProduce" name="groupTaskType">Produce</g:RadioButton>
+						<g:TextBox ui:field="textBoxStartTime" width="60px"/>
+						<g:TextBox ui:field="textBoxEndTime" width="60px"></g:TextBox>
+						<g:TextBox ui:field="textBoxAddDescription" width="400px"></g:TextBox>
+						
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+						<g:Button ui:field="buttonConsume">Start Consuming</g:Button>
+						<g:Button ui:field="buttonProduce">Start Producing</g:Button>
+						<g:TextBox ui:field="textBoxDescription" width="500px"></g:TextBox>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+				
 			</g:south>
 		</g:DockLayoutPanel>
 	
