@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.lbl-in { color: red; margin-left: 8px; margin-right: 3px;}
+		.lbl-out { color: green; margin-right: 3px;}
+		.lbl-num { color: blue; margin-right: 3px;}
+		.lbl-date { text-weight: bold; }
+	</ui:style>
+	<g:HorizontalPanel>
+		<g:Label ui:field="labelDate" styleName="{style.lbl-date}"></g:Label>
+		<g:Label ui:field="labelIn" styleName="{style.lbl-in}">In: 0</g:Label>
+		<g:Label ui:field="labelOut" styleName="{style.lbl-out}">Out: 0</g:Label>
+		<g:Label ui:field="labelNumber" styleName="{style.lbl-num}">Number: 0</g:Label>
+	</g:HorizontalPanel>
+</ui:UiBinder> 
+

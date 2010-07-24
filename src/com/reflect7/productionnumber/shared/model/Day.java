@@ -13,7 +13,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cached;
 
 @SuppressWarnings("serial")
-@Cached
 public class Day implements Serializable {
 
 	public Day(){};
@@ -67,18 +66,23 @@ public class Day implements Serializable {
 		return sum;
 	} 
 	
-	Key<User> user;
-	
-	/*@Embedded List<Task> consumptionTasks = new ArrayList<Task>();
-	public List<Task> getConsumptionTasks() { return consumptionTasks; }
-	
-	@Embedded List<Task> productionTasks = new ArrayList<Task>();
-	public List<Task> getProductionTasks() { return productionTasks; }*/
+	private Key<User> user;
+	public Key<User> getUserKey() { return user; }
 	
 	@Embedded List<Task> tasks = new ArrayList<Task>();
 	public List<Task> getTasks() { return tasks; }
 
+	public Boolean doesContainTask(Task task){
+		for (Task t : this.tasks)
+			if (t.equals(task))
+				return true;
+		return false;
+	}
 
+	public String toString(){
+		return this.getDateString();
+	}
+	
 	private void updateDate(byte year, byte month, byte day){
 		StringBuilder sb = new StringBuilder();
 		sb.append("20");

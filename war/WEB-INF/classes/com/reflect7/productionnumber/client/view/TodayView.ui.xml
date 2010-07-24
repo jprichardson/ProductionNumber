@@ -12,7 +12,7 @@
 		.lbl-out { color: green; margin-right: 3px;}
 		.lbl-num { color: blue; margin-right: 3px;}
 		
-		
+		.today-detail-panel { border-top: 3px solid black; }
 	</ui:style>
 	<!-- <g:HTMLPanel>
 		Hello,
@@ -21,22 +21,26 @@
 	<!-- <g:LayoutPanel width="00px" height="500px">
 		<g:layer><g:Button>fuck you</g:Button></g:layer>
 	</g:LayoutPanel>-->
-		<g:DockLayoutPanel unit="PX" width="800px" height="600px" styleName="{style.main-pnl}">
+		<g:DockLayoutPanel unit="PX" width="800px" height="650px" styleName="{style.main-pnl}">
 			
 			<g:center>
 				<g:DockLayoutPanel unit="PX" width="800px">
-					<g:north size="290">
-						<g:VerticalPanel></g:VerticalPanel>
+					<g:north size="240">
+						<g:ScrollPanel  height="240px">
+							<g:VerticalPanel ui:field="panelDay">
+									
+							</g:VerticalPanel>
+						</g:ScrollPanel>
 					</g:north>
 					<g:south size="290">
-						<g:VerticalPanel width="800px">
+						<g:VerticalPanel width="800px" styleName="{style.today-detail-panel}">
 							<g:HorizontalPanel>
 								<g:Label>Today's Tasks</g:Label>
 								<g:Label ui:field="labelIn" styleName="{style.lbl-in}">In: 0</g:Label>
 								<g:Label ui:field="labelOut" styleName="{style.lbl-out}">Out: 0</g:Label>
 								<g:Label ui:field="labelNumber" styleName="{style.lbl-num}">Number: 0</g:Label>
 							</g:HorizontalPanel>
-							<g:ScrollPanel ui:field="scroller" height="260px">
+							<g:ScrollPanel ui:field="scroller" height="240px">
 								<g:VerticalPanel ui:field="taskPanel">
 									
 								</g:VerticalPanel>

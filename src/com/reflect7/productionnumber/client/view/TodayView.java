@@ -49,6 +49,7 @@ public class TodayView extends Composite {
 	@UiField Button buttonProduce;
 	@UiField TextBox textBoxDescription;
 	@UiField VerticalPanel taskPanel;
+	@UiField VerticalPanel panelDay;
 	@UiField ScrollPanel scroller;
 	
 	@UiField Button buttonAddTask;
@@ -104,28 +105,14 @@ public class TodayView extends Composite {
 					}
 
 					public void onSuccess(Iterable<Day> result) {
-						
+						for (Day d : result){
+							TodayItemView tdv = new TodayItemView(d);
+							panelDay.add(tdv);
+						}
 					}
 				});
 			}
 		});
-		
-		/*Window.addResizeHandler(new ResizeHandler(){
-			public void onResize(ResizeEvent event) {
-				Element e = scroller.getElement();
-				int h = e.getAbsoluteBottom() - e.getAbsoluteTop();
-				System.out.println(e.getClientHeight());
-				System.out.println(h);
-				//DOM.setStyleAttribute(scroller.getElement(), attr, value)
-			}
-		});
-		
-		final TodayView self = this;
-		DeferredCommand.addCommand(new Command(){
-			public void execute() {
-				//self.onResize();
-			}
-		});*/
 	}
 
 	@UiHandler("buttonConsume")

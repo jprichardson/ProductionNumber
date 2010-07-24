@@ -31,6 +31,25 @@ public class TaskServiceImpl extends RemoteServiceServlet implements TaskService
 			days.add(t);
 		}
 		
+		//List<Day> toSave = new ArrayList<Day>();
+		//This is a hack to fix the duplication bug
+		for (Day origDay : days){
+			for (Day copyDay : days){
+				if (origDay != copyDay){
+					if (origDay.getDateString().equals(copyDay.getDateString())){
+						//move tasks overs
+						for (Task t : copyDay.getTasks()){
+							if(!origDay.doesContainTask(t))
+								origDay.getTasks().add(t);
+						}
+						
+						ofy.put(origDay);
+						ofy.delete(copyDay);
+					}
+				}
+			}
+		}
+		
 		return days;
 	}
 	
@@ -60,7 +79,7 @@ public class TaskServiceImpl extends RemoteServiceServlet implements TaskService
 		return null;
 	}
 
-	
+
 	
 	private Objectify initObjectify(){
 		ObjectifyService.register(Task.class);
